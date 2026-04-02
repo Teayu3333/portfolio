@@ -1,19 +1,23 @@
 <template>
   <section id="skills" class="section">
     <div class="container">
-      <div class="section-header">
-        <p class="section-label">Skills</p>
-        <h2 class="section-title">技術スタック</h2>
-        <p class="section-desc">フロントエンドからインフラまで、フルスタックで対応できます。</p>
+      <div class="sec-header">
+        <p class="sec-label">01 — SKILLS</p>
+        <h2 class="sec-title">TECH STACK</h2>
+        <p class="sec-desc">// フロントエンドからインフラまで、フルスタックで対応</p>
       </div>
+
       <div class="skills-grid">
-        <div v-for="group in skillGroups" :key="group.category" class="skill-card">
-          <div class="skill-card-header">
-            <span class="skill-icon">{{ group.icon }}</span>
-            <h3>{{ group.category }}</h3>
+        <div v-for="group in skillGroups" :key="group.category" class="skill-block">
+          <div class="skill-block-head">
+            <span class="skill-index">{{ group.index }}</span>
+            <span class="skill-cat">{{ group.category }}</span>
           </div>
-          <div class="skill-items">
-            <span v-for="skill in group.skills" :key="skill" class="skill-chip">{{ skill }}</span>
+          <div class="skill-list">
+            <div v-for="skill in group.skills" :key="skill" class="skill-row">
+              <span class="skill-bullet">—</span>
+              <span class="skill-name">{{ skill }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -23,100 +27,116 @@
 
 <script setup lang="ts">
 interface SkillGroup {
+  index: string
   category: string
-  icon: string
   skills: string[]
 }
 
 const skillGroups: SkillGroup[] = [
   {
-    category: 'バックエンド',
-    icon: '⚙️',
+    index: '01',
+    category: 'BACKEND',
     skills: ['Java', 'Python', 'Spring Boot', 'Seasar2'],
   },
   {
-    category: 'フロントエンド',
-    icon: '🎨',
-    skills: ['Vue.js', 'TypeScript', 'JavaScript', 'HTML/CSS'],
+    index: '02',
+    category: 'FRONTEND',
+    skills: ['Vue.js', 'TypeScript', 'JavaScript', 'HTML / CSS'],
   },
   {
-    category: 'インフラ・クラウド',
-    icon: '☁️',
+    index: '03',
+    category: 'CLOUD / INFRA',
     skills: ['AWS EC2', 'AWS S3', 'AWS RDS', 'AWS Lambda', 'Linux'],
   },
   {
-    category: 'データベース',
-    icon: '🗄️',
+    index: '04',
+    category: 'DATABASE',
     skills: ['MySQL', 'PostgreSQL', 'Oracle'],
   },
   {
-    category: 'ツール・CI/CD',
-    icon: '🔧',
+    index: '05',
+    category: 'TOOLS / CI-CD',
     skills: ['Jenkins', 'Git', 'GitHub', 'Backlog', 'Redmine'],
   },
   {
-    category: '業務知識',
-    icon: '📋',
+    index: '06',
+    category: 'DOMAIN',
     skills: ['契約管理 (CLM)', '要件定義', '基本設計', '詳細設計', 'テスト'],
   },
 ]
 </script>
 
 <style scoped>
+.sec-header {
+  margin-bottom: var(--s-3xl);
+}
+
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
-.skill-card {
+.skill-block {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: var(--s-xl) var(--s-lg);
+  transition: background var(--t-fast) var(--ease);
+}
+
+.skill-block:hover {
   background: var(--bg-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.75rem;
-  transition: border-color var(--transition), transform var(--transition);
 }
 
-.skill-card:hover {
-  border-color: rgba(79, 142, 247, 0.3);
-  transform: translateY(-3px);
+.skill-block-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-sm);
+  margin-bottom: var(--s-lg);
 }
 
-.skill-card-header {
+.skill-index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--red);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.skill-cat {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text);
+}
+
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-xs);
+}
+
+.skill-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
+  gap: var(--s-sm);
 }
 
-.skill-icon {
-  font-size: 1.5rem;
+.skill-bullet {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dis);
 }
 
-.skill-card-header h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text);
+.skill-name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-sec);
 }
 
-.skill-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.skill-chip {
-  padding: 0.3rem 0.75rem;
-  background: var(--bg-3);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 0.8rem;
-  color: var(--text-dim);
-  transition: color var(--transition), border-color var(--transition);
-}
-
-.skill-card:hover .skill-chip {
-  color: var(--text);
-  border-color: rgba(79, 142, 247, 0.2);
+.skill-block:hover .skill-name {
+  color: var(--text-body);
 }
 </style>

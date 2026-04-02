@@ -1,26 +1,30 @@
 <template>
-  <section id="experience" class="section section-alt">
+  <section id="experience" class="section">
     <div class="container">
-      <div class="section-header">
-        <p class="section-label">Experience</p>
-        <h2 class="section-title">職務経歴</h2>
-        <p class="section-desc">5年以上の開発経験。SIerから自社SaaSプロダクト開発まで。</p>
+      <div class="sec-header">
+        <p class="sec-label">02 — EXPERIENCE</p>
+        <h2 class="sec-title">WORK HISTORY</h2>
+        <p class="sec-desc">// 5年以上の開発経験 — SIerから自社SaaSプロダクト開発まで</p>
       </div>
-      <div class="timeline">
-        <div v-for="(job, i) in jobs" :key="i" class="timeline-item">
-          <div class="timeline-marker">
-            <div class="marker-dot"></div>
-            <div class="marker-line" v-if="i < jobs.length - 1"></div>
+
+      <div class="exp-list">
+        <div v-for="(job, i) in jobs" :key="i" class="exp-item">
+          <!-- Left: index + line -->
+          <div class="exp-left">
+            <span class="exp-idx">{{ String(i + 1).padStart(2, '0') }}</span>
+            <div class="exp-line" v-if="i < jobs.length - 1"></div>
           </div>
-          <div class="timeline-card">
-            <div class="timeline-meta">
-              <span class="timeline-period">{{ job.period }}</span>
-              <span class="timeline-badge">{{ job.type }}</span>
+
+          <!-- Right: content -->
+          <div class="exp-content">
+            <div class="exp-top-row">
+              <div class="exp-period">{{ job.period }}</div>
+              <div class="exp-type-tag">{{ job.type }}</div>
             </div>
-            <h3 class="timeline-company">{{ job.company }}</h3>
-            <p class="timeline-role">{{ job.role }}</p>
-            <p class="timeline-desc">{{ job.description }}</p>
-            <div class="timeline-tech">
+            <h3 class="exp-company">{{ job.company }}</h3>
+            <p class="exp-role">{{ job.role }}</p>
+            <p class="exp-desc">{{ job.description }}</p>
+            <div class="exp-tech-row">
               <span v-for="tech in job.tech" :key="tech" class="tech-tag">{{ tech }}</span>
             </div>
           </div>
@@ -42,141 +46,148 @@ interface Job {
 
 const jobs: Job[] = [
   {
-    period: '2022 〜 現在',
-    type: '自社SaaS',
+    period: '2022 — PRESENT',
+    type: 'IN-HOUSE SAAS',
     company: 'ContractS株式会社',
-    role: 'ソフトウェアエンジニア',
+    role: 'Software Engineer',
     description:
-      'CLM（Contract Lifecycle Management）SaaSプロダクトのフルスタック開発。契約ステータス管理・承認フロー・通知機能など新機能を設計から実装・テストまで一貫して担当。AWS環境の運用・最適化、JenkinsによるCI/CDパイプライン整備も推進。',
+      'CLM（Contract Lifecycle Management）SaaSプロダクトのフルスタック開発。契約ステータス管理・承認フロー・通知機能など新機能を設計から実装・テストまで一貫担当。AWS環境の運用・最適化、JenkinsによるCI/CDパイプライン整備も推進。',
     tech: ['Vue.js', 'TypeScript', 'Java', 'Spring Boot', 'AWS', 'Jenkins', 'MySQL'],
   },
   {
-    period: '〜 2022',
-    type: 'SIer',
+    period: '— 2022',
+    type: 'SIER',
     company: 'SIer企業',
-    role: 'システムエンジニア',
+    role: 'Systems Engineer',
     description:
-      '官公庁・大手企業向け業務システムの設計・開発。要件定義から基本設計・詳細設計・テストまで一貫対応。Java/Seasar2でのバックエンド開発を中心に、大規模プロジェクトのデリバリーを経験。',
+      '官公庁・大手企業向け業務システムの設計・開発。要件定義から基本設計・詳細設計・テストまで全工程を一貫対応。Java/Seasar2でのバックエンド開発を中心に、大規模プロジェクトのデリバリーを経験。',
     tech: ['Java', 'Seasar2', 'Oracle', 'PostgreSQL', 'Redmine'],
   },
 ]
 </script>
 
 <style scoped>
-.timeline {
-  max-width: 780px;
-  margin: 0 auto;
+.sec-header {
+  margin-bottom: var(--s-3xl);
 }
 
-.timeline-item {
+.exp-list {
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  gap: 0;
 }
 
-.timeline-marker {
+.exp-item {
+  display: flex;
+  gap: var(--s-xl);
+  padding-bottom: var(--s-3xl);
+}
+
+.exp-left {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  padding-top: 0.4rem;
+  width: 32px;
 }
 
-.marker-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 3px solid var(--bg);
-  box-shadow: 0 0 0 2px var(--accent);
+.exp-idx {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: 0.05em;
+  margin-bottom: var(--s-sm);
   flex-shrink: 0;
 }
 
-.marker-line {
-  width: 2px;
+.exp-line {
+  width: 1px;
   flex: 1;
-  background: linear-gradient(to bottom, var(--accent), var(--border));
-  margin: 0.5rem 0;
-  min-height: 40px;
+  background: var(--border);
+  min-height: 60px;
 }
 
-.timeline-card {
-  background: var(--bg-2);
+.exp-content {
+  flex: 1;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem;
-  flex: 1;
-  margin-bottom: 2rem;
-  transition: border-color var(--transition);
+  padding: var(--s-xl) var(--s-lg);
+  transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
 }
 
-.timeline-card:hover {
-  border-color: rgba(79, 142, 247, 0.3);
+.exp-content:hover {
+  border-color: var(--border-2);
+  background: var(--bg-2);
 }
 
-.timeline-meta {
+.exp-top-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  gap: var(--s-md);
+  margin-bottom: var(--s-md);
 }
 
-.timeline-period {
-  font-size: 0.8rem;
-  color: var(--text-dim);
-  font-weight: 500;
+.exp-period {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-dis);
 }
 
-.timeline-badge {
-  padding: 0.2rem 0.6rem;
-  background: var(--accent-dim);
-  border: 1px solid rgba(79, 142, 247, 0.2);
-  border-radius: 4px;
-  font-size: 0.75rem;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.timeline-company {
-  font-size: 1.25rem;
+.exp-type-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
   font-weight: 700;
-  margin-bottom: 0.25rem;
+  letter-spacing: 0.1em;
+  color: var(--red);
+  border: 1px solid var(--red);
+  padding: 1px var(--s-xs);
 }
 
-.timeline-role {
-  font-size: 0.9rem;
-  color: var(--accent);
-  font-weight: 500;
-  margin-bottom: 1rem;
+.exp-company {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.05em;
+  margin-bottom: var(--s-xs);
 }
 
-.timeline-desc {
-  font-size: 0.9rem;
-  color: var(--text-dim);
+.exp-role {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-sec);
+  text-transform: uppercase;
+  margin-bottom: var(--s-md);
+}
+
+.exp-desc {
+  font-size: 14px;
+  color: var(--text-sec);
   line-height: 1.8;
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--s-lg);
 }
 
-.timeline-tech {
+.exp-tech-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--s-xs);
 }
 
 .tech-tag {
-  padding: 0.25rem 0.65rem;
-  background: var(--bg-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-dis);
   border: 1px solid var(--border);
-  border-radius: 5px;
-  font-size: 0.78rem;
-  color: var(--text-dim);
+  padding: 2px var(--s-sm);
 }
 
 @media (max-width: 600px) {
-  .timeline-item {
-    gap: 1rem;
-  }
-  .timeline-card {
-    padding: 1.25rem;
-  }
+  .exp-item { gap: var(--s-md); }
+  .exp-content { padding: var(--s-lg) var(--s-md); }
 }
 </style>

@@ -1,34 +1,59 @@
 <template>
-  <section id="about" class="section section-alt">
+  <section id="about" class="section">
     <div class="container">
-      <div class="section-header">
-        <p class="section-label">About</p>
-        <h2 class="section-title">自己PR</h2>
-        <p class="section-desc">社内SEとして即戦力になれる3つの強みです。</p>
+      <div class="sec-header">
+        <p class="sec-label">04 — ABOUT</p>
+        <h2 class="sec-title">SELF PR</h2>
+        <p class="sec-desc">// 社内SEとして即戦力になれる3つの強み</p>
       </div>
-      <div class="about-grid">
-        <div v-for="(pr, i) in prItems" :key="i" class="pr-card">
-          <div class="pr-index">{{ String(i + 1).padStart(2, '0') }}</div>
-          <div class="pr-icon">{{ pr.icon }}</div>
-          <h3 class="pr-title">{{ pr.title }}</h3>
-          <p class="pr-body">{{ pr.body }}</p>
+
+      <div class="about-layout">
+        <!-- PR blocks -->
+        <div class="pr-blocks">
+          <div v-for="(item, i) in prItems" :key="i" class="pr-block">
+            <div class="pr-block-head">
+              <span class="pr-num">{{ String(i + 1).padStart(2, '0') }}</span>
+              <span class="pr-sep">/</span>
+              <span class="pr-label">{{ item.label }}</span>
+            </div>
+            <h3 class="pr-title">{{ item.title }}</h3>
+            <p class="pr-body">{{ item.body }}</p>
+          </div>
         </div>
-      </div>
-      <div class="about-profile">
-        <div class="profile-inner">
-          <div class="profile-avatar">
-            <span>T</span>
+
+        <!-- Profile card -->
+        <div class="profile-card dot-bg">
+          <div class="profile-top">
+            <div class="profile-avatar">T</div>
+            <div>
+              <p class="profile-name">TEAYU</p>
+              <p class="profile-kana">ティーユー</p>
+            </div>
           </div>
-          <div class="profile-info">
-            <h3 class="profile-name">Teayu（ティーユー）</h3>
-            <p class="profile-title">Software Engineer → 社内SE志望</p>
-            <p class="profile-bio">
-              SIerで要件定義・設計・開発・テストを経験後、自社SaaS企業でフルスタック開発に従事。
-              技術領域はバックエンド（Java/Spring Boot）からフロントエンド（Vue.js/TS）、
-              AWSインフラ、CI/CDまで幅広く対応。<br /><br />
-              技術力と業務理解を両立しながら、ユーザー部門に近い立場で社内ITを推進したいと考えています。
-            </p>
+          <div class="profile-divider"></div>
+          <div class="profile-data">
+            <div class="pd-row">
+              <span class="pd-key">TARGET</span>
+              <span class="pd-val">社内SE / コーポレートIT</span>
+            </div>
+            <div class="pd-row">
+              <span class="pd-key">EXP</span>
+              <span class="pd-val">5+ 年</span>
+            </div>
+            <div class="pd-row">
+              <span class="pd-key">DOMAIN</span>
+              <span class="pd-val">CLM / 業務システム</span>
+            </div>
+            <div class="pd-row">
+              <span class="pd-key">GITHUB</span>
+              <a class="pd-val pd-link" href="https://github.com/Teayu3333" target="_blank" rel="noopener">Teayu3333</a>
+            </div>
           </div>
+          <div class="profile-divider"></div>
+          <p class="profile-bio">
+            SIerで要件定義・設計・開発・テストを経験後、自社SaaS企業でフルスタック開発に従事。
+            技術力と業務理解を両立しながら、ユーザー部門に近い立場で社内ITを推進したい。
+          </p>
         </div>
       </div>
     </div>
@@ -37,133 +62,199 @@
 
 <script setup lang="ts">
 interface PRItem {
-  icon: string
+  label: string
   title: string
   body: string
 }
 
 const prItems: PRItem[] = [
   {
-    icon: '🚀',
+    label: 'FULLSTACK + INFRA',
     title: 'フルスタック×インフラの広い技術範囲',
     body: 'フロントエンド（Vue.js/TS）からバックエンド（Java/Spring Boot）、AWSインフラ、CI/CDまで一貫して対応できる。社内SEとして「なんでも自分で動ける」エンジニアとして即戦力になれる。',
   },
   {
-    icon: '🧩',
+    label: 'DOMAIN KNOWLEDGE',
     title: '業務理解力と設計力',
     body: 'SIer時代から要件定義・基本設計・詳細設計を経験。契約管理ドメインの深い業務知識も持つ。ユーザー部門との橋渡し役として、技術と業務の両面から課題解決できる。',
   },
   {
-    icon: '⚡',
+    label: 'IMPROVEMENT MINDSET',
     title: '改善・自動化への積極性',
-    body: 'CI/CDパイプライン整備、開発環境改善、ドキュメント標準化など、「今あるものをより良くする」取り組みを自発的に推進してきた。社内SEとして社内システムの継続改善に貢献できる。',
+    body: 'CI/CDパイプライン整備・開発環境改善・ドキュメント標準化など「今あるものをより良くする」取り組みを自発的に推進。社内SEとして社内システムの継続改善に貢献できる。',
   },
 ]
 </script>
 
 <style scoped>
-.about-grid {
+.sec-header {
+  margin-bottom: var(--s-3xl);
+}
+
+.about-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 4rem;
+  grid-template-columns: 1fr 320px;
+  gap: var(--s-xl);
+  align-items: start;
 }
 
-.pr-card {
-  background: var(--bg-2);
+/* PR blocks */
+.pr-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem;
-  position: relative;
-  transition: border-color var(--transition), transform var(--transition);
 }
 
-.pr-card:hover {
-  border-color: rgba(79, 142, 247, 0.3);
-  transform: translateY(-3px);
+.pr-block {
+  padding: var(--s-xl) var(--s-lg);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--t-fast) var(--ease);
 }
 
-.pr-index {
-  font-family: 'Syne', sans-serif;
-  font-size: 0.75rem;
+.pr-block:last-child { border-bottom: none; }
+
+.pr-block:hover { background: var(--bg-2); }
+
+.pr-block-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-xs);
+  margin-bottom: var(--s-sm);
+}
+
+.pr-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.1em;
-  margin-bottom: 1rem;
+  color: var(--red);
 }
 
-.pr-icon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+.pr-sep {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--border-2);
+}
+
+.pr-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-dis);
 }
 
 .pr-title {
-  font-size: 1rem;
+  font-size: 15px;
   font-weight: 700;
-  margin-bottom: 0.75rem;
+  color: var(--text);
+  margin-bottom: var(--s-sm);
   line-height: 1.4;
 }
 
 .pr-body {
-  font-size: 0.875rem;
-  color: var(--text-dim);
+  font-size: 13px;
+  color: var(--text-sec);
   line-height: 1.8;
 }
 
-.about-profile {
-  max-width: 700px;
-  margin: 0 auto;
+/* Profile card */
+.profile-card {
+  border: 1px solid var(--border);
+  padding: var(--s-xl) var(--s-lg);
+  position: sticky;
+  top: 80px;
 }
 
-.profile-inner {
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2.5rem;
+.profile-top {
   display: flex;
-  gap: 2rem;
-  align-items: flex-start;
+  align-items: center;
+  gap: var(--s-md);
+  margin-bottom: var(--s-lg);
 }
 
 .profile-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--border-2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Syne', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #fff;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
   flex-shrink: 0;
 }
 
 .profile-name {
-  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 18px;
   font-weight: 700;
-  margin-bottom: 0.25rem;
+  color: var(--text);
+  letter-spacing: 0.1em;
 }
 
-.profile-title {
-  font-size: 0.875rem;
-  color: var(--accent);
-  margin-bottom: 1rem;
-  font-weight: 500;
+.profile-kana {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dis);
+  letter-spacing: 0.08em;
+  margin-top: var(--s-2xs);
 }
+
+.profile-divider {
+  height: 1px;
+  background: var(--border);
+  margin: var(--s-md) 0;
+}
+
+.profile-data {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-sm);
+}
+
+.pd-row {
+  display: flex;
+  gap: var(--s-md);
+  align-items: baseline;
+}
+
+.pd-key {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-dis);
+  width: 60px;
+  flex-shrink: 0;
+}
+
+.pd-val {
+  font-size: 13px;
+  color: var(--text-sec);
+}
+
+.pd-link {
+  font-size: 13px;
+  color: var(--text-sec);
+  text-decoration: none;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.pd-link:hover { color: var(--text); }
 
 .profile-bio {
-  font-size: 0.875rem;
-  color: var(--text-dim);
+  font-size: 12px;
+  color: var(--text-sec);
   line-height: 1.8;
 }
 
-@media (max-width: 600px) {
-  .profile-inner {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+@media (max-width: 860px) {
+  .about-layout {
+    grid-template-columns: 1fr;
   }
+  .profile-card { position: static; }
 }
 </style>
