@@ -1,24 +1,23 @@
 <template>
   <header class="nav" :class="{ scrolled: isScrolled }">
     <div class="nav-inner">
-      <a href="#hero" class="nav-logo">TEAYU</a>
+      <a href="#hero" class="nav-logo">
+        <span class="logo-jp">刻耳</span><span class="logo-kana">きざみ</span>
+      </a>
       <nav class="nav-links">
-        <a v-for="item in navItems" :key="item.id" :href="`#${item.id}`" class="nav-link">
-          [ {{ item.label }} ]
+        <a v-for="item in links" :key="item.id" :href="`#${item.id}`" class="nav-link">
+          {{ item.label }}
         </a>
       </nav>
-      <button class="nav-toggle" @click="menuOpen = !menuOpen" :aria-expanded="menuOpen" aria-label="menu">
-        <span :class="{ open: menuOpen }"></span>
+      <button class="nav-toggle" @click="open = !open" :aria-expanded="open">
+        <span class="bar" :class="{ open }"></span>
+        <span class="bar" :class="{ open }"></span>
+        <span class="bar" :class="{ open }"></span>
       </button>
     </div>
-    <div class="nav-mobile" :class="{ open: menuOpen }">
-      <a
-        v-for="item in navItems"
-        :key="item.id"
-        :href="`#${item.id}`"
-        class="nav-mobile-link"
-        @click="menuOpen = false"
-      >[ {{ item.label }} ]</a>
+    <div class="nav-drawer" :class="{ open }">
+      <a v-for="item in links" :key="item.id" :href="`#${item.id}`"
+         class="drawer-link" @click="open = false">{{ item.label }}</a>
     </div>
   </header>
 </template>
@@ -27,17 +26,16 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const isScrolled = ref(false)
-const menuOpen = ref(false)
+const open = ref(false)
 
-const navItems = [
-  { id: 'skills',     label: 'SKILLS' },
-  { id: 'experience', label: 'EXP' },
-  { id: 'projects',   label: 'WORK' },
-  { id: 'about',      label: 'ABOUT' },
-  { id: 'contact',    label: 'CONTACT' },
+const links = [
+  { id: 'profile',  label: 'プロフィール' },
+  { id: 'schedule', label: 'スケジュール' },
+  { id: 'gallery',  label: 'ギャラリー' },
+  { id: 'links',    label: 'リンク' },
 ]
 
-function onScroll() { isScrolled.value = window.scrollY > 40 }
+function onScroll() { isScrolled.value = window.scrollY > 50 }
 onMounted(() => window.addEventListener('scroll', onScroll))
 onUnmounted(() => window.removeEventListener('scroll', onScroll))
 </script>
@@ -47,19 +45,19 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  transition: background var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
+  transition: background var(--t), border-color var(--t);
   border-bottom: 1px solid transparent;
 }
-
 .nav.scrolled {
-  background: rgba(0,0,0,0.95);
+  background: rgba(6,0,8,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom-color: var(--border);
 }
-
 .nav-inner {
   max-width: 1080px;
   margin: 0 auto;
-  padding: var(--s-md) var(--s-xl);
+  padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -67,80 +65,74 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 
 .nav-logo {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--text);
-  letter-spacing: 0.1em;
-  text-decoration: none;
-  transition: color var(--t-fast) var(--ease);
-}
-
-.nav-logo:hover { color: var(--red); }
-
-.nav-links {
+  font-size: 1.2rem;
   display: flex;
-  gap: var(--s-xl);
+  align-items: baseline;
+  gap: 2px;
 }
+.logo-jp  { color: var(--orange); }
+.logo-kana { color: var(--text); font-size: 0.85rem; }
 
+.nav-links { display: flex; gap: 2rem; }
 .nav-link {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 0.88rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--text-dis);
-  text-decoration: none;
-  transition: color var(--t-fast) var(--ease);
+  color: var(--text-dim);
+  transition: color var(--t);
+  position: relative;
 }
-
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t);
+}
 .nav-link:hover { color: var(--text); }
+.nav-link:hover::after { transform: scaleX(1); }
 
 .nav-toggle {
   display: none;
+  flex-direction: column;
+  gap: 5px;
   background: none;
-  border: 1px solid var(--border-2);
-  color: var(--text-sec);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  padding: var(--s-xs) var(--s-sm);
+  border: none;
   cursor: pointer;
-  letter-spacing: 0.05em;
+  padding: 4px;
+}
+.bar {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform var(--t), opacity var(--t);
 }
 
-.nav-toggle span::before { content: '≡ MENU'; }
-.nav-toggle span.open::before { content: '✕ CLOSE'; }
-
-.nav-mobile {
+.nav-drawer {
   display: none;
   flex-direction: column;
-  background: var(--bg-2);
-  border-bottom: 1px solid var(--border);
+  background: rgba(6,0,8,0.97);
+  border-top: 1px solid var(--border);
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s var(--ease);
+  transition: max-height 0.35s ease;
 }
-
-.nav-mobile.open { max-height: 300px; }
-
-.nav-mobile-link {
-  font-family: var(--font-mono);
-  font-size: 12px;
+.nav-drawer.open { max-height: 300px; }
+.drawer-link {
+  padding: 1rem 1.5rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--text-dis);
-  text-decoration: none;
-  padding: var(--s-md) var(--s-xl);
+  color: var(--text-dim);
   border-bottom: 1px solid var(--border);
-  transition: color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+  transition: color var(--t), background var(--t);
 }
+.drawer-link:hover { color: var(--orange); background: var(--orange-g); }
 
-.nav-mobile-link:hover {
-  color: var(--text);
-  background: var(--bg-3);
-}
-
-@media (max-width: 720px) {
+@media (max-width: 680px) {
   .nav-links { display: none; }
-  .nav-toggle { display: block; }
-  .nav-mobile { display: flex; }
+  .nav-toggle { display: flex; }
+  .nav-drawer { display: flex; }
 }
 </style>
